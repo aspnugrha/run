@@ -21,14 +21,6 @@ class HomeController extends Controller
     }
 
     public function sertifikat(Request $request){
-        // dd(
-        //     $request->id_event,
-        //     $request->bib_number,
-        //     $request->gender,
-        //     $request->kategori,
-        //     $request->name,
-        // );
-
         $menit = $request->chip_time;
         $detik = 0;
         if(str_contains($request->chip_time, '.')){
@@ -41,9 +33,9 @@ class HomeController extends Controller
         $event = System::getEvent($request->id_event);
 
         $pdf = Pdf::setOptions([
-    'isHtml5ParserEnabled' => true,
-    'isRemoteEnabled' => true,
-])->loadView('result.sertifikat', [
+            'isHtml5ParserEnabled' => true,
+            'isRemoteEnabled' => true,
+        ])->loadView('result.sertifikat', [
             'event' => $event,
             'request' => $request,
             'time' => $time,
