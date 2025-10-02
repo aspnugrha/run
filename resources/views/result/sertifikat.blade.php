@@ -68,8 +68,8 @@
 <body>
     <div id="capture">
         <div class="isi">
-            <p class="name" style="margin-top: 208px;font-size: 30px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
-            <p class="category-time" style="margin-top: 60px;font-size: 30px;color: white;">{{ $request->kategori.' '.$time }}</p>
+            <p class="name" style="margin-top: 250px;font-size: 30px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
+            <p class="category-time" style="margin-top: 85px;font-size: 30px;color: white;">{{ $request->kategori.' '.$time }}</p>
         </div>
         <img src="{{ (@$event['template_sertifikat'] ? asset('assets/images/sertifikat/template/'.$event['template_sertifikat']) : asset('assets/images/sertifikat/template/template-sertifikat.png')) }}" alt="Gambar asli" class="fullscreen-img">
     </div>
