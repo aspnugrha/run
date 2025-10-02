@@ -182,9 +182,12 @@ $(document).ready(function() {
                 render: function(data, type, row, meta) {
                     let result = ''
                     if(row.chip_time){
-                        const detik = (parseInt(row.chip_time.substring(0, 2)) * 60) + parseInt(row.chip_time.substring(3, 5))
+                        const pisah = row.chip_time.split('.');
+                        const detik = (parseInt(pisah[0]) * 60) + parseInt(pisah[1])
                         result = formatWaktu(detik)
                     }
+                    console.log(row.chip_time, result);
+                    
                     return result
                 }
             },
