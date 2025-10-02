@@ -126,7 +126,8 @@ $(document).ready(function() {
         processing: true,
         serverSide: true,
         ajax: {
-            url: "http://194.233.67.199:2222/results", // API eksternal
+            // url: "http://194.233.67.199:2222/results", // API eksternal
+            url: "https://terserah.my.id/results", // API eksternal
             type: "GET",
             data: function (d) {
                 return {
