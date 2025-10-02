@@ -84,7 +84,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tfoot>
+                {{-- <tfoot>
                     <tr>
                         <th>#</th>
                         <th>BIB</th>
@@ -102,7 +102,7 @@
                         <th>Finish</th>
                         <th>Action</th>
                     </tr>
-                </tfoot>
+                </tfoot> --}}
             </table>
         </div>
     </div>
