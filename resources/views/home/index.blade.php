@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $item['name'] }}</h5>
                         <p class="card-text">{{ date('d F Y', strtotime($item['date'])) }}</p>
-                        <a href="/result/{{ $item['id'] }}" class="btn btn-outline-dark btn-sm">Result</a>
+                        <a href="{{ route('result', ['id' => $item['id']]) }}" class="btn btn-outline-dark btn-sm">Result</a>
                     </div>
                 </div>
             </div>
