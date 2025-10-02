@@ -82,8 +82,8 @@
     {{-- pdf --}}
     <div id="capture">
         <div class="isi">
-            <p class="name" style="margin-top: 210px;font-size: 27px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
-            <p class="category-time" style="margin-top: 62px;font-size: 25px;color: white;">{{ $request->kategori.' '.$time }}</p>
+            <p class="name" style="margin-top: 215px;font-size: 27px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
+            <p class="category-time" style="margin-top: 71px;font-size: 25px;color: white;">{{ $request->kategori.' '.$time }}</p>
         </div>
         <img src="{{ (@$event['template_sertifikat'] ? 'data:image/png;base64,'.$template_sertifikat : '') }}" alt="Sertifikat" class="fullscreen-img">
     </div>
