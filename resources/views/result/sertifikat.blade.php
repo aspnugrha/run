@@ -71,7 +71,7 @@
             <p class="name" style="margin-top: 160px;font-size: 25px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
             <p class="category-time" style="margin-top: 44px;font-size: 20px;color: white;">{{ $request->kategori.' '.$time }}</p>
         </div>
-        <img src="{{ (@$event['template_sertifikat'] ? asset('assets/images/sertifikat/template/'.$event['template_sertifikat']) : asset('assets/images/sertifikat/template/template-sertifikat.png')) }}" alt="Gambar asli" class="fullscreen-img">
+        <img src="{{ (@$event['template_sertifikat'] ? asset('assets/images/sertifikat/template/'.$event['template_sertifikat']) : '') }}" alt="Sertifikat" class="fullscreen-img">
     </div>
     {{-- <script>
         window.print()

@@ -18,6 +18,7 @@ class System extends Model
             'category' => ['5k'],
             'link_api' => '',
             'active' => true,
+            'template_sertifikat' => null,
         ],
         [
             'id' => 2,
@@ -26,6 +27,7 @@ class System extends Model
             'category' => ['5k', '10k', '21k'],
             'link_api' => '',
             'active' => true,
+            'template_sertifikat' => 'template-sertifikat-2.png',
         ],
         [
             'id' => 3,
@@ -34,6 +36,7 @@ class System extends Model
             'category' => ['10k'],
             'link_api' => '',
             'active' => true,
+            'template_sertifikat' => null,
         ],
         [
             'id' => 4,
@@ -42,6 +45,7 @@ class System extends Model
             'category' => ['8k'],
             'link_api' => '',
             'active' => true,
+            'template_sertifikat' => null,
         ],
         [
             'id' => 5,
@@ -50,6 +54,7 @@ class System extends Model
             'category' => ['10k'],
             'link_api' => '',
             'active' => false,
+            'template_sertifikat' => null,
         ],
     ];
 
