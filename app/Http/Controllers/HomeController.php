@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\System;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -39,7 +40,20 @@ class HomeController extends Controller
 
         $event = System::getEvent($request->id_event);
 
-        return view('result.sertifikat', compact('event', 'request', 'time'));
+        $pdf = Pdf::setOptions([
+    'isHtml5ParserEnabled' => true,
+    'isRemoteEnabled' => true,
+])->loadView('result.sertifikat', [
+            'event' => $event,
+            'request' => $request,
+            'time' => $time,
+            'template_sertifikat' => ($event['template_sertifikat'] ? base64_encode(file_get_contents(public_path('assets/images/sertifikat/template/'.$event['template_sertifikat']))) : null),
+        ]);
+
+        // tampilkan di browser tanpa download
+        return $pdf->stream('sertifikat.pdf');
+
+        // return view('result.sertifikat', compact('event', 'request', 'time'));
     }
 
     function convertToHMS($minutes, $seconds) {

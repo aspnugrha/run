@@ -27,7 +27,7 @@ class System extends Model
             'category' => ['5k', '10k', '21k'],
             'link_api' => '',
             'active' => true,
-            'template_sertifikat' => 'template-sertifikat-2.png',
+            'template_sertifikat' => 'template-sertifikat-22.jpg',
         ],
         [
             'id' => 3,

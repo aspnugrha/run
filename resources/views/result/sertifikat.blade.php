@@ -6,7 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sertifikat</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap'); */
+        @font-face {
+            font-family: 'Alan Sans';
+            src: url("{{ public_path('assets/fonts/AlanSans-VariableFont_wght.ttf') }}") format('truetype');
+        }
         html, body {
             margin: 0;
             height: 60vh;
@@ -22,8 +26,8 @@
         }
 
         .fullscreen-img {
-            max-width: 600px;   /* muat lebar layar */
-            max-height: 600px;  /* muat tinggi layar */
+            max-width: 795px;   /* muat lebar layar */
+            max-height: 750px;  /* muat tinggi layar */
             width: auto;        /* biarkan browser jaga rasio */
             height: auto;       /* biarkan browser jaga rasio */
             display: block;
@@ -66,20 +70,30 @@
     </style>
 </head>
 <body>
-    <div id="capture">
+    {{-- image --}}
+    {{-- <div id="capture">
         <div class="isi">
             <p class="name" style="margin-top: 160px;font-size: 25px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
             <p class="category-time" style="margin-top: 44px;font-size: 20px;color: white;">{{ $request->kategori.' '.$time }}</p>
         </div>
-        <img src="{{ (@$event['template_sertifikat'] ? asset('assets/images/sertifikat/template/'.$event['template_sertifikat']) : '') }}" alt="Sertifikat" class="fullscreen-img">
+        <img src="{{ (@$event['template_sertifikat'] ? 'data:image/png;base64,'.$template_sertifikat : '') }}" alt="Sertifikat" class="fullscreen-img">
+    </div> --}}
+
+    {{-- pdf --}}
+    <div id="capture">
+        <div class="isi">
+            <p class="name" style="margin-top: 207px;font-size: 27px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
+            <p class="category-time" style="margin-top: 54px;font-size: 25px;color: white;">{{ $request->kategori.' '.$time }}</p>
+        </div>
+        <img src="{{ (@$event['template_sertifikat'] ? 'data:image/png;base64,'.$template_sertifikat : '') }}" alt="Sertifikat" class="fullscreen-img">
     </div>
     {{-- <script>
         window.print()
     </script> --}}
 
-    <br><button class="btn btn-5 hover-border-11" id="downloadBtn">Download Sertifikat</button>
+    {{-- <br><button class="btn btn-5 hover-border-11" id="downloadBtn">Download Sertifikat</button> --}}
     <!-- html2canvas CDN -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
 document.getElementById('downloadBtn').addEventListener('click', async function() {
   const el = document.getElementById('capture');
@@ -103,6 +117,6 @@ document.getElementById('previewBtn').addEventListener('click', async function()
   const dataUrl = canvas.toDataURL('image/png');
   window.open(dataUrl, '_blank');
 });
-</script>
+</script> --}}
 </body>
 </html>
