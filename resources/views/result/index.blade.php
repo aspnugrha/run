@@ -196,8 +196,30 @@ $(document).ready(function() {
             { data: 'ranking_sub_kategori' },
             { data: 'ranking_sub_sub_kategori' },
             { data: 'ranking_gender' },
-            { data: 'start_time' },
-            { data: 'finish_time' },
+            {
+                data: 'start_time',
+                render: function(data, type, row, meta) {
+                    let result = ''
+                    if(row.status == 'FINISH'){
+                        result = formatWaktuLengkap(row.start_time)
+                    }
+                    console.log(row.start_time, result);
+                    
+                    return result;
+                }
+            },
+            {
+                data: 'finish_time',
+                render: function(data, type, row, meta) {
+                    let result = ''
+                    if(row.status == 'FINISH'){
+                        result = formatWaktuLengkap(row.finish_time)
+                    }
+                    console.log(row.finish_time, result);
+                    
+                    return result;
+                }
+            },
             {
                 data: "finish_time",
                 name: "finish_time",
@@ -229,6 +251,27 @@ function formatWaktu(totalDetik) {
         .map(v => v.toString().padStart(2, '0'))
         .join(':');
 }
+
+function formatWaktuLengkap(isoString) {
+  const date = new Date(isoString);
+
+  const namaBulan = [
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+
+  const tanggal = String(date.getDate()).padStart(2, '0');
+  const bulan_raw = String(date.getMonth()).padStart(2, '0');
+  const bulan = namaBulan[date.getMonth()];
+  const tahun = date.getFullYear();
+
+  const jam = String(date.getHours()).padStart(2, '0');
+  const menit = String(date.getMinutes()).padStart(2, '0');
+  const detik = String(date.getSeconds()).padStart(2, '0');
+
+  return `${tanggal}-${bulan_raw}-${tahun} ${jam}:${menit}:${detik}`;
+}
+
 
 function downloadSertifikat(id_event, bib_number, gender, kategori, nama, chip_time){
     console.log('sert', id_event, bib_number, gender, kategori, nama, chip_time);
