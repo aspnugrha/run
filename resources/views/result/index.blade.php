@@ -180,8 +180,11 @@ $(document).ready(function() {
             {
                 data: 'chip_time',
                 render: function(data, type, row, meta) {
-                    const detik = (parseInt(row.chip_time.substring(0, 2)) * 60) + parseInt(row.chip_time.substring(3, 5))
-                    const result = formatWaktu(detik)
+                    let result = ''
+                    if(row.chip_time){
+                        const detik = (parseInt(row.chip_time.substring(0, 2)) * 60) + parseInt(row.chip_time.substring(3, 5))
+                        result = formatWaktu(detik)
+                    }
                     return result
                 }
             },
