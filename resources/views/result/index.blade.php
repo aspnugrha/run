@@ -177,7 +177,14 @@ $(document).ready(function() {
             { data: 'kategori' },
             { data: 'gender' },
             { data: 'status' },
-            { data: 'chip_time' },
+            {
+                data: 'chip_time',
+                render: function(data, type, row, meta) {
+                    const detik = (parseInt(row.chip_time.substring(0, 2)) * 60) + parseInt(row.chip_time.substring(3, 5))
+                    const result = formatWaktu(detik)
+                    return result
+                }
+            },
             { data: 'pace_finish' },
             { data: 'ranking_kategori' },
             { data: 'ranking_sub_kategori' },
@@ -205,6 +212,16 @@ $(document).ready(function() {
 
 function reloadTable(){
     table.ajax.reload(null, false); 
+}
+
+function formatWaktu(totalDetik) {
+    const jam = Math.floor(totalDetik / 3600);
+    const menit = Math.floor((totalDetik % 3600) / 60);
+    const detik = totalDetik % 60;
+
+    return [jam, menit, detik]
+        .map(v => v.toString().padStart(2, '0'))
+        .join(':');
 }
 
 function downloadSertifikat(id_event, bib_number, gender, kategori, nama, chip_time){
