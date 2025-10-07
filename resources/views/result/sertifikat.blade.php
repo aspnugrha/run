@@ -26,8 +26,7 @@
         }
 
         .fullscreen-img {
-            max-width: 795px;   /* muat lebar layar */
-            max-height: 750px;  /* muat tinggi layar */
+            max-width: 1120px;   /* muat lebar layar */
             width: auto;        /* biarkan browser jaga rasio */
             height: auto;       /* biarkan browser jaga rasio */
             display: block;
@@ -82,10 +81,10 @@
     {{-- pdf --}}
     <div id="capture">
         <div class="isi">
-            <p class="name" style="margin-top: 215px;font-size: 27px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
-            <p class="category-time" style="margin-top: 71px;font-size: 25px;color: white;">{{ $request->kategori.' '.$time }}</p>
+            <p class="name" style="margin-top: {{ $event['s_nama'] }}x;font-size: 27px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
+            <p class="category-time" style="margin-top: {{ $event['s_kategori'] }}px;font-size: 25px;color: white;">{{ $request->kategori.' '.$time }}</p>
         </div>
-        <img src="{{ (@$event['template_sertifikat'] ? 'data:image/png;base64,'.$template_sertifikat : '') }}" alt="Sertifikat" class="fullscreen-img">
+        <img src="{{ ($request->sertifikat ? $request->sertifikat : '') }}" alt="Sertifikat" class="fullscreen-img">
     </div>
     {{-- <script>
         window.print()

@@ -9,12 +9,12 @@
             <tr>
                 <td style="width: 100px;">Event</td>
                 <td style="width: 10px;">:</td>
-                <td>{{ $event['name'] }}</td>
+                <td>{{ $event['nama_event'] }}</td>
             </tr>
             <tr>
                 <td>Date</td>
                 <td>:</td>
-                <td>{{ date('d F Y', strtotime($event['date'])) }}</td>
+                <td>{{ date('d F Y H:i:s', strtotime($event['start_time'])) }} - {{ date('d F Y H:i:s', strtotime($event['finish_time'])) }}</td>
             </tr>
         </table>
 
@@ -24,8 +24,8 @@
                     <div class="mb-3">
                         <label class="form-label text-muted">Category</label>
                         <select name="category" id="category" class="form-control" onchange="reloadTable()">
-                            @foreach ($event['category'] as $item)
-                                <option value="{{ $item }}">{{ $item }}</option>
+                            @foreach ($category as $item)
+                                <option value="{{ $item['kategori'] }}">{{ $item['kategori'] }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -110,11 +110,13 @@
 <form action="{{ route('sertifikat') }}" id="formSertifikat" method="POST" target="_blank">
     @csrf
     <input type="hidden" name="id_event" id="id_event_sert">
+    <input type="hidden" name="nama_event" id="nama_event_sert">
     <input type="hidden" name="bib_number" id="bib_number_sert">
     <input type="hidden" name="gender" id="gender_sert">
     <input type="hidden" name="kategori" id="kategori_sert">
     <input type="hidden" name="chip_time" id="chip_time_sert">
     <input type="hidden" name="name" id="name_sert">
+    <input type="hidden" name="sertifikat" id="sertifikat_sert">
 </form>
 @endsection
 
@@ -131,7 +133,7 @@ $(document).ready(function() {
             type: "GET",
             data: function (d) {
                 return {
-                    event_id: "{{ $event['id'] }}", 
+                    event_id: "{{ $event['event_id'] }}", 
                     kategori: $('#category').val(),
                     gender: $('#gender').val(),
                     ranking_mode: $('#ranking').val(),
@@ -181,12 +183,12 @@ $(document).ready(function() {
                 data: 'chip_time',
                 render: function(data, type, row, meta) {
                     let result = ''
-                    if(row.chip_time){
+                    if(row.chip_time && row.chip_time != '-'){
                         const pisah = row.chip_time.split('.');
                         const detik = (parseInt(pisah[0]) * 60) + parseInt(pisah[1])
                         result = formatWaktu(detik)
                     }
-                    console.log(row.chip_time, result);
+                    // console.log('chip', row.chip_time, result);
                     
                     return result
                 }
@@ -200,10 +202,10 @@ $(document).ready(function() {
                 data: 'start_time',
                 render: function(data, type, row, meta) {
                     let result = ''
-                    if(row.status == 'FINISH'){
+                    if(row.status == 'FINISH' && row.start_time){
                         result = formatWaktuLengkap(row.start_time)
                     }
-                    console.log(row.start_time, result);
+                    // console.log('start', row.start_time, result);
                     
                     return result;
                 }
@@ -212,10 +214,10 @@ $(document).ready(function() {
                 data: 'finish_time',
                 render: function(data, type, row, meta) {
                     let result = ''
-                    if(row.status == 'FINISH'){
+                    if(row.status == 'FINISH' && row.finish_time){
                         result = formatWaktuLengkap(row.finish_time)
                     }
-                    console.log(row.finish_time, result);
+                    // console.log('finish', row.finish_time, result);
                     
                     return result;
                 }
@@ -224,10 +226,22 @@ $(document).ready(function() {
                 data: "finish_time",
                 name: "finish_time",
                 render: function(data, type, row, meta) {
+                    const sert_time = "{{ $event && $event['certificate_time'] ? $event['certificate_time'] : '' }}"
+                    let status_sert_time = false;
+
+                    if(sert_time){
+                        const inputDate = new Date(sert_time);
+                        const now = new Date();
+    
+                        if (inputDate <= now) {
+                            status_sert_time = true;
+                        }
+                    }
+
                     let action = ``
-                    if(row.status == 'FINISH'){
+                    if(row.status == 'FINISH' || status_sert_time){
                         action += `<button 
-                            onclick="downloadSertifikat('{{ $event['id'] }}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.nama}', '${row.chip_time}')"
+                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.nama}', '${row.chip_time}', '{{ $event['certificate_url'] }}')"
                             class="btn btn-sm btn-outline-success" target="_blank">
                             Download Sertifikat</button>`
                     }
@@ -273,15 +287,17 @@ function formatWaktuLengkap(isoString) {
 }
 
 
-function downloadSertifikat(id_event, bib_number, gender, kategori, nama, chip_time){
-    console.log('sert', id_event, bib_number, gender, kategori, nama, chip_time);
+function downloadSertifikat(id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sertifikat){
+    console.log('sert', id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sertifikat);
     
     $('#id_event_sert').val(id_event)
+    $('#nama_event_sert').val(nama_event)
     $('#bib_number_sert').val(bib_number)
     $('#gender_sert').val(gender)
     $('#kategori_sert').val(kategori)
     $('#name_sert').val(nama)
     $('#chip_time_sert').val(chip_time)
+    $('#sertifikat_sert').val(sertifikat)
 
     $('#formSertifikat').submit()
 }

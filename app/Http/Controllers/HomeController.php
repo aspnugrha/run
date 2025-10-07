@@ -5,19 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\System;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
     public function index(){
-        $events = System::getEvents();
+        // $events = System::getEvents();
         
-        return view('home.index', compact('events'));
+        return view('home.index');
     }
 
     public function result($id_event){
-        $event = System::getEvent($id_event);
+        // $event = System::getEvent($id_event);
 
-        return view('result.index', compact('event'));
+        $response = Http::get('https://api.noufar.com/event');
+        $result = $response->json();
+
+        $event = null;
+        $category = [];
+        if($result['data']){
+            $filtered = array_filter($result['data'], fn($item) => $item['event_id'] == $id_event);
+            $event = ($filtered ? collect($filtered)->first() : null);
+            $category = array_map(function($item) {
+                return [
+                    'kategori' => $item['kategori']
+                ];
+            }, $filtered);
+        }
+
+        return view('result.index', compact('event', 'category'));
     }
 
     public function sertifikat(Request $request){
@@ -30,7 +46,16 @@ class HomeController extends Controller
         }
         $time = $this->convertToHMS($menit, $detik);
 
-        $event = System::getEvent($request->id_event);
+        // $event = System::getEvent($request->id_event);
+
+        $response = Http::get('https://api.noufar.com/event');
+        $result = $response->json();
+
+        $event = null;
+        if($result['data']){
+            $filtered = array_filter($result['data'], fn($item) => $item['event_id'] == $request->id_event);
+            $event = ($filtered ? collect($filtered)->first() : null);
+        }
 
         $pdf = Pdf::setOptions([
             'isHtml5ParserEnabled' => true,
@@ -39,8 +64,9 @@ class HomeController extends Controller
             'event' => $event,
             'request' => $request,
             'time' => $time,
-            'template_sertifikat' => ($event['template_sertifikat'] ? base64_encode(file_get_contents(public_path('assets/images/sertifikat/template/'.$event['template_sertifikat']))) : null),
-        ]);
+            // 'template_sertifikat' => ($event['template_sertifikat'] ? base64_encode(file_get_contents(public_path('assets/images/sertifikat/template/'.$event['template_sertifikat']))) : null),
+            'template_sertifikat' => ($request->sertifikat ? $request->sertifikat : null),
+        ])->setPaper('a4', 'landscape');
 
         // tampilkan di browser tanpa download
         return $pdf->stream('sertifikat.pdf');
