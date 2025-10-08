@@ -32,6 +32,22 @@
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="mb-3">
+                        <label class="form-label text-muted">Sub Category</label>
+                        <select name="sub_kategori" id="sub_kategori" class="form-control" onchange="reloadTable()">
+                            <option value="">Select Sub Category</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Sub Sub Category</label>
+                        <select name="sub_sub_kategori" id="sub_sub_kategori" class="form-control" onchange="reloadTable()">
+                            <option value="">Select Sub Sub Category</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="mb-3">
                         <label class="form-label text-muted">Gender</label>
                         <select name="gender" id="gender" class="form-control" onchange="reloadTable()">
                             <option value="">Select Gender</option>
@@ -115,6 +131,8 @@
     <input type="hidden" name="gender" id="gender_sert">
     <input type="hidden" name="kategori" id="kategori_sert">
     <input type="hidden" name="chip_time" id="chip_time_sert">
+    <input type="hidden" name="sub_kategori" id="sub_kategori_sert">
+    <input type="hidden" name="sub_sub_kategori" id="sub_sub_kategori_sert">
     <input type="hidden" name="name" id="name_sert">
     <input type="hidden" name="sertifikat" id="sertifikat_sert">
 </form>
@@ -123,6 +141,9 @@
 @section('scripts')
 <script>
 let table = ''
+let sub_kategori = null
+let sub_sub_kategori = null
+
 $(document).ready(function() {
     table = $('#table-data').DataTable({
         processing: true,
@@ -132,7 +153,7 @@ $(document).ready(function() {
             url: "https://terserah.my.id/results", // API eksternal
             type: "GET",
             data: function (d) {
-                return {
+                let data = {
                     event_id: "{{ $event['event_id'] }}", 
                     kategori: $('#category').val(),
                     gender: $('#gender').val(),
@@ -142,6 +163,11 @@ $(document).ready(function() {
                     page: (d.start / d.length) + 1,
                     search: d.search.value,
                 };
+
+                if($('#sub_kategori').val()) data.sub_kategori = $('#sub_kategori').val()
+                if($('#sub_sub_kategori').val()) data.sub_sub_kategori = $('#sub_sub_kategori').val()
+
+                return data
             },
             // dataFilter: function(response) {
             //     let json = JSON.parse(response);
@@ -158,7 +184,27 @@ $(document).ready(function() {
             //     return data
             // }
             dataSrc: function (json) {
-                console.log('data', json);
+                console.log('data', json, sub_kategori, sub_sub_kategori);
+                
+                if(json.items){
+                    let new_sub_kategori = [...new Set(json.items.map(item => item.sub_kategori))];
+                    let new_sub_sub_kategori = [...new Set(json.items.map(item => item.sub_sub_kategori))];
+                    
+                    new_sub_kategori = new_sub_kategori.filter(v => v !== '' && v !== null && v !== undefined)
+                    new_sub_sub_kategori = new_sub_sub_kategori.filter(v => v !== '' && v !== null && v !== undefined)
+                    // console.log('unik', new_sub_kategori, new_sub_sub_kategori)
+
+                    if(new_sub_kategori.length > sub_kategori){
+                        sub_kategori = new_sub_kategori
+                    }
+                    if(new_sub_sub_kategori.length > sub_sub_kategori){
+                        sub_sub_kategori = new_sub_sub_kategori
+                    }
+                }
+                // console.log('data new', sub_kategori, sub_sub_kategori);
+
+                loadSubKategori('sub', sub_kategori)
+                loadSubKategori('sub_sub', sub_sub_kategori)
                 
                 json.recordsTotal = json.pagination.total;
                 json.recordsFiltered = json.pagination.total;
@@ -241,7 +287,7 @@ $(document).ready(function() {
                     let action = ``
                     if(row.status == 'FINISH' || status_sert_time){
                         action += `<button 
-                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.nama}', '${row.chip_time}', '{{ $event['certificate_url'] }}')"
+                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.nama}', '${row.chip_time}', '${row.sub_kategori}', '${row.sub_sub_kategori}', '{{ $event['certificate_url'] }}')"
                             class="btn btn-sm btn-outline-success" target="_blank">
                             Download Sertifikat</button>`
                     }
@@ -251,6 +297,17 @@ $(document).ready(function() {
         ]
     });
 });
+
+function loadSubKategori(condition, data){
+    var html = `<option value="">`+(condition == 'sub' ? 'Select Sub Category' : 'Select Sub Sub Category')+`</option>`;
+    if(data){
+        data.forEach(item => {
+            html += `<option value="${item}">${item}</option>`
+        });
+    }
+
+    $('#'+(condition == 'sub' ? 'sub_kategori' : 'sub_sub_kategori')).html(html)
+}
 
 function reloadTable(){
     table.ajax.reload(null, false); 
@@ -287,8 +344,8 @@ function formatWaktuLengkap(isoString) {
 }
 
 
-function downloadSertifikat(id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sertifikat){
-    console.log('sert', id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sertifikat);
+function downloadSertifikat(id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sub_kategori, sub_sub_kategori, sertifikat){
+    console.log('sert', id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sub_kategori, sub_sub_kategori, sertifikat);
     
     $('#id_event_sert').val(id_event)
     $('#nama_event_sert').val(nama_event)
@@ -297,6 +354,8 @@ function downloadSertifikat(id_event, nama_event, bib_number, gender, kategori, 
     $('#kategori_sert').val(kategori)
     $('#name_sert').val(nama)
     $('#chip_time_sert').val(chip_time)
+    $('#sub_kategori_sert').val(sub_kategori)
+    $('#sub_sub_kategori_sert').val(sub_sub_kategori)
     $('#sertifikat_sert').val(sertifikat)
 
     $('#formSertifikat').submit()

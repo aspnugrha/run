@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PreviewSertifikatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/result/{id}', [HomeController::class, 'result'])->name('result');
 Route::post('/sertifikat', [HomeController::class, 'sertifikat'])->name('sertifikat');
+Route::get('/preview-sertifikat', [PreviewSertifikatController::class, 'previewSertifikat'])->name('preview.sertifikat');
+Route::get('/preview-sertifikat/{id}', [PreviewSertifikatController::class, 'previewSertifikatDetail'])->name('preview.sertifikat.detail');
