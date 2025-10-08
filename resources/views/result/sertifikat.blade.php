@@ -5,12 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sertifikat</title>
+    @if ($event['f_cdn'])
+        <style>
+            @import url({{ $event['f_cdn'] }});
+        </style>
+    @endif
     <style>
         /* @import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap'); */
-        @font-face {
+        /* @font-face {
             font-family: 'Alan Sans';
             src: url("{{ public_path('assets/fonts/AlanSans-VariableFont_wght.ttf') }}") format('truetype');
-        }
+        } */
         html, body {
             margin: 0;
             height: 60vh;

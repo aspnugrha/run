@@ -52,7 +52,7 @@ function loadEvents(){
                                 <img src="https://via.assets.so/img.jpg?w=400&h=200&bg=e5e7eb&text=+&f=png" class="card-img-top" alt="Gambar Event ${item.nama_event}">
                                 <div class="card-body">
                                     <h5 class="card-title">${item.nama_event}</h5>
-                                    <p class="card-text">${formatTanggalIndo(item.start_time)}</p>
+                                    <p class="card-text">${formatTanggal(item.start_time)}</p>
                                     <a href="{{ url('/preview-sertifikat') }}/${item.event_id}" class="btn btn-outline-dark btn-sm">Result</a>
                                 </div>
                             </div>
@@ -65,6 +65,17 @@ function loadEvents(){
             $('#div-events').html(html)
         })
         .catch(err => console.error(err));
+}
+
+function formatTanggal(isoString){
+    const date = new Date(isoString.replace(' ', 'T')); // ubah ke format ISO
+
+    const bulan = [
+        'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+
+    return `${date.getDate()} ${bulan[date.getMonth()]} ${date.getFullYear()}`;
 }
 
 function formatTanggalIndo(isoString) {

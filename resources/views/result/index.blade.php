@@ -14,7 +14,7 @@
             <tr>
                 <td>Date</td>
                 <td>:</td>
-                <td>{{ date('d F Y H:i:s', strtotime($event['start_time'])) }} - {{ date('d F Y H:i:s', strtotime($event['finish_time'])) }}</td>
+                <td>{{ date('d F Y', strtotime($event['start_time'])) }}</td>
             </tr>
         </table>
 
