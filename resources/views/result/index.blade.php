@@ -293,7 +293,7 @@ $(document).ready(function() {
                     let action = ``
                     if(row.status == 'FINISH' && status_sert_time){
                         action += `<button 
-                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.nama}', '${row.chip_time}', '${row.sub_kategori}', '${row.sub_sub_kategori}', '{{ $event['certificate_url'] }}')"
+                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.nama}', '${row.chip_time}', '${row.sub_kategori ? row.sub_kategori : ''}', '${row.sub_sub_kategori ? row.sub_sub_kategori : ''}', '{{ $event['certificate_url'] }}')"
                             class="btn btn-sm btn-outline-success" target="_blank">
                             Download Sertifikat</button>`
                     }
@@ -360,8 +360,8 @@ function downloadSertifikat(id_event, nama_event, bib_number, gender, kategori, 
     $('#kategori_sert').val(kategori)
     $('#name_sert').val(nama)
     $('#chip_time_sert').val(chip_time)
-    $('#sub_kategori_sert').val(sub_kategori)
-    $('#sub_sub_kategori_sert').val(sub_sub_kategori)
+    $('#sub_kategori_sert').val((sub_kategori ? sub_kategori : ''))
+    $('#sub_sub_kategori_sert').val((sub_sub_kategori ? sub_sub_kategori : ''))
     $('#sertifikat_sert').val(sertifikat)
 
     $('#formSertifikat').submit()

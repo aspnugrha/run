@@ -33,6 +33,8 @@ class HomeController extends Controller
             }, $filtered);
         }
 
+        // dd($event);
+
         return view('result.index', compact('event', 'category'));
     }
 

@@ -84,7 +84,7 @@
             {{-- <p class="name" style="margin-top: {{ $event['s_nama'] }}px;font-size: 27px;color: rgb(204, 0, 0);">{{ $request->name }}</p>
             <p class="category-time" style="margin-top: {{ $event['s_kategori'] }}px;font-size: 25px;color: white;">{{ $request->kategori.' '.$time }}</p> --}}
             <p class="name" style="{{ $event['s_nama'] }}">{{ $request->name }}</p>
-            <p class="category-time" style="{{ $event['s_kategori'] }}">{{ $request->kategori }}{{ $request->sub_kategori ? ' '.$request->sub_kategori : '' }}{{ $request->sub_sub_kategori ? ' '.$request->sub_sub_kategori : '' }} {{ $time }}</p>
+            <p class="category-time" style="{{ $event['s_kategori'] }}">{{ $request->kategori }}{{ ($request->sub_kategori ? ' '.$request->sub_kategori : '') }}{{ ($request->sub_sub_kategori ? ' '.$request->sub_sub_kategori : '') }} {{ $time }}</p>
         </div>
         <img src="{{ ($request->sertifikat ? $request->sertifikat : '') }}" alt="Sertifikat" class="fullscreen-img">
     </div>
