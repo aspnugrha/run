@@ -80,11 +80,11 @@
     <div style="width: 90%;padding: 10px 20px;">
         <div style="margin-bottom: 5px;">
             <label>Nama Peserta</label><br>
-            <input type="text" id="nama" style="width: 100%;font-size: 18px;padding: 10px;">
+            <input type="text" id="nama" style="width: 100%;font-size: 18px;padding: 10px;" value="Nama Peserta">
         </div>
         <div style="margin-bottom: 5px;">
             <label>Kategori</label><br>
-            <input type="text" id="kategori" style="width: 100%;font-size: 18px;padding: 10px;">
+            <input type="text" id="kategori" style="width: 100%;font-size: 18px;padding: 10px;" value="Kategori">
         </div>
         <div style="margin-bottom: 5px;">
             <label>Sub Kategori</label><br>
@@ -111,9 +111,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    $(document).ready(function()){
+    $(document).ready(function(){
         setPreview()
-    }
+    });
+
     function setPreview(){
         const nama = $('#nama').val();
         const kategori = $('#kategori').val();
