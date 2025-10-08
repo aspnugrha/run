@@ -87,6 +87,8 @@
                         <th>BIB</th>
                         <th>Name</th>
                         <th>Category</th>
+                        <th>Sub Category</th>
+                        <th>Sub Sub Category</th>
                         <th>Gender</th>
                         <th>Status</th>
                         <th>Chip Time</th>
@@ -141,8 +143,8 @@
 @section('scripts')
 <script>
 let table = ''
-let sub_kategori = null
-let sub_sub_kategori = null
+let sub_kategori = []
+let sub_sub_kategori = []
 
 $(document).ready(function() {
     table = $('#table-data').DataTable({
@@ -194,12 +196,11 @@ $(document).ready(function() {
                     new_sub_sub_kategori = new_sub_sub_kategori.filter(v => v !== '' && v !== null && v !== undefined)
                     // console.log('unik', new_sub_kategori, new_sub_sub_kategori)
 
-                    if(new_sub_kategori.length > sub_kategori){
-                        sub_kategori = new_sub_kategori
-                    }
-                    if(new_sub_sub_kategori.length > sub_sub_kategori){
-                        sub_sub_kategori = new_sub_sub_kategori
-                    }
+                    new_sub_kategori = [...new Set([...new_sub_kategori, ...sub_kategori])];
+                    new_sub_sub_kategori = [...new Set([...new_sub_sub_kategori, ...sub_sub_kategori])];
+
+                    sub_kategori = new_sub_kategori
+                    sub_sub_kategori = new_sub_sub_kategori
                 }
                 // console.log('data new', sub_kategori, sub_sub_kategori);
 
@@ -223,6 +224,8 @@ $(document).ready(function() {
             { data: 'bib_number' },
             { data: 'nama' },
             { data: 'kategori' },
+            { data: 'sub_kategori' },
+            { data: 'sub_sub_kategori' },
             { data: 'gender' },
             { data: 'status' },
             {
