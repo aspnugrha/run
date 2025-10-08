@@ -56,7 +56,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                {{-- <div class="col-6 col-md-3">
                     <div class="mb-3">
                         <label class="form-label text-muted">Ranking</label>
                         <select name="ranking" id="ranking" class="form-control" onchange="reloadTable()">
@@ -75,7 +75,7 @@
                             <option value="chip_time_asc">Oldest</option>
                         </select>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </form>
 
@@ -159,8 +159,8 @@ $(document).ready(function() {
                     event_id: "{{ $event['event_id'] }}", 
                     kategori: $('#category').val(),
                     gender: $('#gender').val(),
-                    ranking_mode: $('#ranking').val(),
-                    ordering: $('#order').val(),
+                    // ranking_mode: $('#ranking').val(),
+                    // ordering: $('#order').val(),
                     page_size: d.length,
                     page: (d.start / d.length) + 1,
                     search: d.search.value,
