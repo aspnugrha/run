@@ -293,7 +293,9 @@ $(document).ready(function() {
                     let action = ``
                     if(row.status == 'FINISH' && status_sert_time){
                         action += `<button 
-                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.nama}', '${row.chip_time}', '${row.sub_kategori ? row.sub_kategori : ''}', '${row.sub_sub_kategori ? row.sub_sub_kategori : ''}', '{{ $event['certificate_url'] }}')"
+                            id="btn-sertifikat-${row.id}"
+                            data-user-name="${row.nama}"
+                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.id}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.chip_time}', '${row.sub_kategori ? row.sub_kategori : ''}', '${row.sub_sub_kategori ? row.sub_sub_kategori : ''}', '{{ $event['certificate_url'] }}')"
                             class="btn btn-sm btn-outline-success" target="_blank">
                             Download Sertifikat</button>`
                     }
@@ -350,15 +352,17 @@ function formatWaktuLengkap(isoString) {
 }
 
 
-function downloadSertifikat(id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sub_kategori, sub_sub_kategori, sertifikat){
-    console.log('sert', id_event, nama_event, bib_number, gender, kategori, nama, chip_time, sub_kategori, sub_sub_kategori, sertifikat);
+function downloadSertifikat(id_event, nama_event, id, bib_number, gender, kategori, chip_time, sub_kategori, sub_sub_kategori, sertifikat){
+    const name = $('#btn-sertifikat-'+id).data('user-name')
+    
+    console.log('sert', id_event, nama_event, bib_number, name, gender, kategori, chip_time, sub_kategori, sub_sub_kategori, sertifikat);
     
     $('#id_event_sert').val(id_event)
     $('#nama_event_sert').val(nama_event)
     $('#bib_number_sert').val(bib_number)
     $('#gender_sert').val(gender)
     $('#kategori_sert').val(kategori)
-    $('#name_sert').val(nama)
+    $('#name_sert').val(name)
     $('#chip_time_sert').val(chip_time)
     $('#sub_kategori_sert').val((sub_kategori ? sub_kategori : ''))
     $('#sub_sub_kategori_sert').val((sub_sub_kategori ? sub_sub_kategori : ''))
