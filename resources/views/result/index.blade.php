@@ -91,14 +91,14 @@
                         <th>Sub Sub Category</th>
                         <th>Gender</th>
                         <th>Status</th>
-                        <th>Chip Time</th>
+                        <th>Gun Time</th>
                         <th>Pace</th>
                         <th>Rank Kat</th>
                         <th>Rank Sub</th>
                         <th>Rank Sub2</th>
                         <th>Rank Gen</th>
-                        <th>Start</th>
-                        <th>Finish</th>
+                        {{-- <th>Start</th>
+                        <th>Finish</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -125,19 +125,137 @@
         </div>
     </div>
 </div>
-<form action="{{ route('sertifikat') }}" id="formSertifikat" method="POST" target="_blank">
-    @csrf
-    <input type="hidden" name="id_event" id="id_event_sert">
-    <input type="hidden" name="nama_event" id="nama_event_sert">
-    <input type="hidden" name="bib_number" id="bib_number_sert">
-    <input type="hidden" name="gender" id="gender_sert">
-    <input type="hidden" name="kategori" id="kategori_sert">
-    <input type="hidden" name="chip_time" id="chip_time_sert">
-    <input type="hidden" name="sub_kategori" id="sub_kategori_sert">
-    <input type="hidden" name="sub_sub_kategori" id="sub_sub_kategori_sert">
-    <input type="hidden" name="name" id="name_sert">
-    <input type="hidden" name="sertifikat" id="sertifikat_sert">
-</form>
+
+<div class="modal fade" id="modalDetailResult" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Result</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-4">
+            <h3 class="text-center">{{ $event['nama_event'] }}</h3>
+        </div>
+        <div class="card p-3">
+            <div class="mb-4 text-center">
+                <h3 class="text-center mb-0" id="text-bib-number"></h3>
+                <h5 class="text-center"><span class="badge bg-primary" id="text-badge-kategori"></span></h5>
+    
+                <div class="profile my-3">
+                    <img id="image-profile-user" src="" alt="Profile User" style="width: 100px;height: 100px;object-fit: cover;border-radius: 100%;border: 1px solid #ddd;">
+                </div>
+    
+                <h3 class="text-center" id="text-user-name"></h3>
+                <h5 class="text-center" id="text-kategori-subkategori-gender"></h5>
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="card rounded-lg h-100 p-3">
+                            <b class="text-muted">OVERALL</b>
+                            <h5 class="text-info" id="text-overall"></h5>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card rounded-lg h-100 p-3">
+                            <b class="text-muted">CATEGORY</b>
+                            <h5 class="text-info" id="text-kategori"></h5>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card rounded-lg h-100 p-3">
+                            <b class="text-muted">GENDER</b>
+                            <h5 class="text-info" id="text-gender"></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="card rounded-lg h-100 p-3">
+                            <div class="d-flex justify-content-between">
+                                <b>GUN TIME</b>
+                                <small class="text-muted">Average Pace <span class="text-average-pace"></span></small>
+                            </div>
+                            <h3 class="" id="text-gun-time"></h3>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="card rounded-lg h-100 p-3">
+                            <div class="d-flex justify-content-between">
+                                <b>NET TIME</b>
+                                <small class="text-muted">Average Pace <span class="text-average-pace"></span></small>
+                            </div>
+                            <h3 class="" id="text-net-time"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="card rounded-lg h-100 p-3">
+                            <b class="text-muted">START</b>
+                            <h5 class="" id="text-start-time"></h5>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card rounded-lg h-100 p-3">
+                            <b class="text-muted">FINISH</b>
+                            <h5 class="" id="text-finish-time"></h5>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card rounded-lg h-100 p-3">
+                            <b class="text-muted">STATUS</b>
+                            <h4 class="text-success" id="text-status"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <h5 class="mt-4 mb-2">SPLITS</h5>
+                <div class="card rounded-lg p-3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">KM</th>
+                            <th scope="col">Split Time</th>
+                            <th scope="col">Race Time</th>
+                            <th scope="col">Pace</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-splits">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <form action="{{ route('sertifikat') }}" id="formSertifikat" method="POST" target="_blank">
+            @csrf
+            <input type="hidden" name="id_event" id="id_event_sert" value="{{ $event['event_id'] }}">
+            <input type="hidden" name="nama_event" id="nama_event_sert" value="{{ $event['nama_event'] }}">
+            <input type="hidden" name="bib_number" id="bib_number_sert" value="">
+            <input type="hidden" name="gender" id="gender_sert" value="">
+            <input type="hidden" name="kategori" id="kategori_sert" value="">
+            <input type="hidden" name="chip_time" id="chip_time_sert" value="">
+            <input type="hidden" name="sub_kategori" id="sub_kategori_sert" value="">
+            <input type="hidden" name="sub_sub_kategori" id="sub_sub_kategori_sert" value="">
+            <input type="hidden" name="name" id="name_sert" value="">
+            <input type="hidden" name="sertifikat" id="sertifikat_sert" value="{{ $event['certificate_url'] }}">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="$('#formSertifikat').submit();">Download Sertifikat</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 @endsection
 
 @section('scripts')
@@ -228,16 +346,30 @@ $(document).ready(function() {
             { data: 'sub_sub_kategori' },
             { data: 'gender' },
             { data: 'status' },
+            // {
+            //     data: 'chip_time',
+            //     render: function(data, type, row, meta) {
+            //         let result = ''
+            //         if(row.chip_time && row.chip_time != '-'){
+            //             const pisah = row.chip_time.split('.');
+            //             const detik = (parseInt(pisah[0]) * 60) + parseInt(pisah[1])
+            //             result = formatWaktu(detik)
+            //         }
+            //         // console.log('chip', row.chip_time, result);
+                    
+            //         return result
+            //     }
+            // },
             {
-                data: 'chip_time',
+                data: 'guntime_time',
                 render: function(data, type, row, meta) {
                     let result = ''
-                    if(row.chip_time && row.chip_time != '-'){
-                        const pisah = row.chip_time.split('.');
+                    if(row.guntime_time && row.guntime_time != '-'){
+                        const pisah = row.guntime_time.split('.');
                         const detik = (parseInt(pisah[0]) * 60) + parseInt(pisah[1])
                         result = formatWaktu(detik)
                     }
-                    // console.log('chip', row.chip_time, result);
+                    // console.log('chip', row.guntime_time, result);
                     
                     return result
                 }
@@ -247,30 +379,30 @@ $(document).ready(function() {
             { data: 'ranking_sub_kategori' },
             { data: 'ranking_sub_sub_kategori' },
             { data: 'ranking_gender' },
-            {
-                data: 'start_time',
-                render: function(data, type, row, meta) {
-                    let result = ''
-                    if(row.status == 'FINISH' && row.start_time){
-                        result = formatWaktuLengkap(row.start_time)
-                    }
-                    // console.log('start', row.start_time, result);
+            // {
+            //     data: 'start_time',
+            //     render: function(data, type, row, meta) {
+            //         let result = ''
+            //         if(row.status == 'FINISH' && row.start_time){
+            //             result = formatWaktuLengkap(row.start_time)
+            //         }
+            //         // console.log('start', row.start_time, result);
                     
-                    return result;
-                }
-            },
-            {
-                data: 'finish_time',
-                render: function(data, type, row, meta) {
-                    let result = ''
-                    if(row.status == 'FINISH' && row.finish_time){
-                        result = formatWaktuLengkap(row.finish_time)
-                    }
-                    // console.log('finish', row.finish_time, result);
+            //         return result;
+            //     }
+            // },
+            // {
+            //     data: 'finish_time',
+            //     render: function(data, type, row, meta) {
+            //         let result = ''
+            //         if(row.status == 'FINISH' && row.finish_time){
+            //             result = formatWaktuLengkap(row.finish_time)
+            //         }
+            //         // console.log('finish', row.finish_time, result);
                     
-                    return result;
-                }
-            },
+            //         return result;
+            //     }
+            // },
             {
                 data: "finish_time",
                 name: "finish_time",
@@ -282,8 +414,7 @@ $(document).ready(function() {
                         const inputDate = new Date(sert_time);
                         const now = new Date();
 
-                        console.log(inputDate, now, inputDate <= now);
-                        
+                        // console.log(inputDate, now, inputDate <= now);
     
                         if (inputDate <= now) {
                             status_sert_time = true;
@@ -291,14 +422,24 @@ $(document).ready(function() {
                     }
 
                     let action = ``
+                    let showDownloadSertifikat = false;
                     if(row.status == 'FINISH' && status_sert_time){
-                        action += `<button 
-                            id="btn-sertifikat-${row.id}"
-                            data-user-name="${row.nama}"
-                            onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.id}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.chip_time}', '${row.sub_kategori ? row.sub_kategori : ''}', '${row.sub_sub_kategori ? row.sub_sub_kategori : ''}', '{{ $event['certificate_url'] }}')"
-                            class="btn btn-sm btn-outline-success" target="_blank">
-                            Download Sertifikat</button>`
+                        let showDownloadSertifikat = true;
+                        // action += `<button 
+                        //     id="btn-sertifikat-${row.id}"
+                        //     data-user-name="${row.nama}"
+                        //     onclick="downloadSertifikat('{{ $event['event_id'] }}', '{{ $event['nama_event'] }}', '${row.id}', '${row.bib_number}', '${row.gender}', '${row.kategori}', '${row.chip_time}', '${row.sub_kategori ? row.sub_kategori : ''}', '${row.sub_sub_kategori ? row.sub_sub_kategori : ''}', '{{ $event['certificate_url'] }}')"
+                        //     class="btn btn-sm btn-outline-success" target="_blank">
+                        //     Download Sertifikat</button>`
                     }
+
+                    // console.log('row', row);
+                    
+
+                    action += `<button
+                            onclick="showDetailResult('${row.id}', '${row.kategori}', '${row.bib_number}')"
+                            class="btn btn-sm btn-outline-success">
+                            Detail</button>`
                     return action
                 }
             },
@@ -320,6 +461,237 @@ function loadSubKategori(condition, data){
 function reloadTable(){
     table.ajax.reload(null, false); 
 }
+
+async function showDetailResult(id, kategori, bib_number){
+    $('#loader').addClass('active')
+    const p = new URLSearchParams({
+      event_id: "{{ $event['event_id'] }}",
+      kategori: kategori,
+      include_dns:'true',
+      include_dnf:'true',
+      ranking_mode:'dense',
+      ordering:'chip_time_asc',
+      page:'1',
+      page_size:'50',
+      search: ''
+    });
+    
+    getDataFromAPI("https://terserah.my.id/results?"+p.toString())
+    .then(async function(data){
+        result = (data.items||[]).find(x=>x.bib_number===bib_number) || data.items?.[0] || null;
+        console.log('api', data, result);
+    
+        const totalKategori = data.pagination ? data.pagination.total : 0;
+        let totalSub, totalGender;
+
+        await new Promise(async resolve => {
+            totalSub = result.sub_kategori ? await fetchTotal({sub_kategori: result.sub_kategori}, kategori) : 0;
+            totalGender = result.gender ? await fetchTotal({gender: result.gender}, kategori) : 0;
+
+            resolve()
+        });
+
+        // console.log("api total:", result, totalKategori, totalSub, totalGender);
+    
+        let guntime = ''
+        if(result.guntime_time && result.guntime_time != '-'){
+            const pisah_guntime = result.guntime_time.split('.');
+            guntime = formatWaktu((parseInt(pisah_guntime[0]) * 60) + parseInt(pisah_guntime[1]))
+        }
+        
+        let chip_time = ''
+        if(result.chip_time && result.chip_time != '-'){
+            const pisah_chip_time = result.chip_time.split('.');
+            chip_time = formatWaktu((parseInt(pisah_chip_time[0]) * 60) + parseInt(pisah_chip_time[1]))
+        }
+    
+        let start_time = ''
+        if(result.start_time){
+            start_time = formatWaktuLengkap(result.start_time)
+        }
+        
+        let finish_time = ''
+        if(result.finish_time){
+            finish_time = formatWaktuLengkap(result.finish_time)
+        }
+    
+        $('#text-bib-number').text(result.bib_number)
+        $('#text-badge-kategori').text(result.kategori)
+        $('#image-profile-user').attr('src', `https://placehold.co/600x400/000000/FFF?text=${getInitials(result.nama, "first-last")}`)
+        $('#text-user-name').text(result.nama)
+        $('#text-kategori-subkategori-gender').text(result.kategori+' . '+result.sub_kategori+' . '+result.gender)
+        $('#text-overall').text(result.ranking_kategori + ' / ' + (result.kategori ? totalKategori : 0))
+        $('#text-kategori').text(result.ranking_sub_kategori + ' / ' + (result.sub_kategori ? totalSub : 0))
+        $('#text-gender').text(result.ranking_gender + ' / ' + (result.gender ? totalGender : 0))
+        $('.text-average-pace').text(result.pace_finish)
+        $('#text-gun-time').text(guntime)
+        $('#text-net-time').text(chip_time)
+        $('#text-start-time').text(start_time)
+        $('#text-finish-time').text(finish_time)
+        $('#text-status').text(result.status)
+
+        var html_tbody = ``
+        if(result.splits){
+            result.splits.forEach(item => {
+                const name = item.checkpoint_name || '';
+                const km = Number(item.km || 0);
+
+                if(name === 'START'){ startIso=item.waktu||null; prevIso=item.waktu||null; prevKm=0; return;}
+
+                let tr = document.createElement('tr');
+
+                if(item.waktu){
+                    const cur = new Date(item.waktu);
+                    const prev = prevIso ? new Date(prevIso) : null;
+                    const st   = startIso ? new Date(startIso) : null;
+                    const segSec  = (prev && cur)  ? Math.round((cur-prev)/1000)   : null;
+                    const raceSec = (st   && cur)  ? Math.round((cur-st)/1000)     : null;
+                    const dist    = km - prevKm;
+                    const paceSec = (segSec!=null && dist>0) ? Math.round(segSec/dist) : null;
+                    const paceStr = item.pace && item.pace!=='-' ? item.pace : mmss(paceSec);
+
+                    html_tbody += `<tr>
+                                        <td class="km">${km || '-'}</td>
+                                        <td>${hhmmss(segSec)}</td>
+                                        <td>${hhmmss(raceSec)}</td>
+                                        <td>${paceStr || '-'}</td>
+                                    </tr>`;
+                    prevIso = item.waktu; prevKm = km;
+                }else{
+                    html_tbody += `<tr>
+                                        <td class="km">${km || '-'}</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                    </tr>`;
+                }
+            });
+        }
+
+        $('#tbody-splits').html(html_tbody)
+
+        // form
+        $('#bib_number_sert').val((result ? result.bib_number : ''))
+        $('#gender_sert').val((result ? result.gender : ''))
+        $('#kategori_sert').val((result ? result.kategori : ''))
+        $('#chip_time_sert').val((result ? result.chip_time : ''))
+        $('#sub_kategori_sert').val((result ? result.sub_kategori : ''))
+        $('#sub_sub_kategori_sert').val((result ? result.sub_sub_kategori : ''))
+        $('#name_sert').val((result ? result.nama : ''))
+        
+        $('#modalDetailResult').modal('show')
+        $('#loader').removeClass('active')
+    });
+}
+
+function hhmmss(sec){
+    if(sec==null) return '-';
+    sec=Math.max(0,Math.round(sec));
+    const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+    const pad=n=>String(n).padStart(2,'0');
+    return h>0? `${h}:${pad(m)}:${pad(s)}` : `${m}:${pad(s)}`;
+}
+
+function mmss(sec){
+    if(sec==null) return '-';
+    sec=Math.max(0,Math.round(sec));
+    const m=Math.floor(sec/60), s=sec%60;
+    return `${m}:${String(s).padStart(2,'0')}`;
+}
+
+async function getDataFromAPI(url) {
+  try {
+    const response = await fetch(url);
+
+    // Cek apakah respons berhasil (status 200)
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Ubah hasil response menjadi JSON
+    const data = await response.json();
+
+    // Kembalikan data
+    return data;
+  } catch (error) {
+    console.error("Gagal mengambil data:", error);
+    return null;
+  }
+}
+
+async function fetchDetail(kategori){
+    const p = new URLSearchParams({
+      event_id: "{{ $event['event_id'] }}",
+      kategori: kategori,
+      include_dns:'true',
+      include_dnf:'true',
+      ranking_mode:'dense',
+      ordering:'chip_time_asc',
+      page:'1',
+      page_size:'50',
+      search: ''
+    });
+
+    let result = null;
+    
+    getDataFromAPI("https://terserah.my.id/results?"+p.toString())
+    .then(data => {
+        result = (data.items||[]).find(x=>x.bib_number===bib_number) || data.items?.[0] || null;
+        console.log('api detail', data, result);
+    })
+
+    return result;
+}
+
+async function fetchTotal(params, kategori){
+    const p = new URLSearchParams({
+        event_id: "{{ $event['event_id'] }}", 
+        kategori: kategori,
+        include_dns:'true',
+        include_dnf:'true',
+        ranking_mode:'dense',
+        ordering:'chip_time_asc',
+        page:'1',
+        page_size:'1',
+        ...params
+    });
+
+    let totalData = 0;
+    
+    await getDataFromAPI("https://terserah.my.id/results?"+p.toString())
+    .then(data => {
+        totalData = data.pagination ? data.pagination.total : 0;
+        console.log('fetch total ', params, data)
+    })
+
+    return totalData;
+}
+
+function getInitials(name, mode = "all") {
+  if (!name) return "";
+
+  // Pisahkan berdasarkan spasi
+  const words = name.trim().split(/\s+/).filter(Boolean);
+
+  // Ambil huruf pertama dari tiap kata, abaikan tanda baca
+  const initials = words.map(word => {
+    // Hapus karakter non-huruf di awal (misal tanda petik atau strip)
+    const cleanWord = word.replace(/^[^A-Za-zÀ-ÿ]+/, ""); 
+    return cleanWord[0] ? cleanWord[0].toUpperCase() : "";
+  }).filter(Boolean);
+
+  if (mode === "first-last") {
+    if (initials.length === 1) return initials[0];
+    return `${initials[0]}${initials[initials.length - 1]}`;
+  }
+
+  if (mode === "two") {
+    return initials.join("").slice(0, 2);
+  }
+
+  return initials.join("");
+}
+
 
 function formatWaktu(totalDetik) {
     const jam = Math.floor(totalDetik / 3600);
