@@ -225,6 +225,9 @@
                             <th scope="col">Split Time</th>
                             <th scope="col">Race Time</th>
                             <th scope="col">Pace</th>
+                            <th scope="col">Overall</th>
+                            <th scope="col">Kategori</th>
+                            <th scope="col">Gender</th>
                             </tr>
                         </thead>
                         <tbody id="tbody-splits">
@@ -555,11 +558,17 @@ async function showDetailResult(id, kategori, bib_number){
                                         <td>${hhmmss(segSec)}</td>
                                         <td>${hhmmss(raceSec)}</td>
                                         <td>${paceStr || '-'}</td>
+                                        <td>${item.ranking_cp_kategori}</td>
+                                        <td>${item.ranking_cp_sub_kategori}</td>
+                                        <td>${item.ranking_cp_gender}</td>
                                     </tr>`;
                     prevIso = item.waktu; prevKm = km;
                 }else{
                     html_tbody += `<tr>
                                         <td class="km">${km || '-'}</td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
                                         <td>-</td>
