@@ -438,11 +438,12 @@ $(document).ready(function() {
 
                     // console.log('row', row);
                     
-
-                    action += `<button
-                            onclick="showDetailResult('${row.id}', '${row.kategori}', '${row.bib_number}')"
-                            class="btn btn-sm btn-outline-success">
-                            Detail</button>`
+                    if(row.status == 'FINISH'){
+                        action += `<button
+                                onclick="showDetailResult('${row.id}', '${row.kategori}', '${row.bib_number}')"
+                                class="btn btn-sm btn-outline-success">
+                                Detail</button>`
+                    }
                     return action
                 }
             },
