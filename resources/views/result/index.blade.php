@@ -252,7 +252,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="$('#formSertifikat').submit();">Download Sertifikat</button>
+        <button type="button" class="btn btn-primary" onclick="$('#formSertifikat').submit();" id="btn-download-sertifikat">Download Sertifikat</button>
       </div>
     </div>
   </div>
@@ -588,6 +588,24 @@ async function showDetailResult(id, kategori, bib_number){
         $('#sub_kategori_sert').val((result ? result.sub_kategori : ''))
         $('#sub_sub_kategori_sert').val((result ? result.sub_sub_kategori : ''))
         $('#name_sert').val((result ? result.nama : ''))
+
+        const sert_time = "{{ $event && $event['certificate_time'] ? $event['certificate_time'] : '' }}"
+        let status_sert_time = false;
+
+        if(sert_time){
+            const inputDate = new Date(sert_time);
+            const now = new Date();
+
+            if (inputDate <= now) {
+                status_sert_time = true;
+            }
+        }
+
+        if(status_sert_time){
+            $('#btn-download-sertifikat').prop('disabled', false)
+        }else{
+            $('#btn-download-sertifikat').prop('disabled', true)
+        }
         
         $('#modalDetailResult').modal('show')
         $('#loader').removeClass('active')
