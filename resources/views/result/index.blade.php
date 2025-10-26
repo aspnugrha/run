@@ -218,21 +218,23 @@
             <div class="mb-3">
                 <h5 class="mt-4 mb-2">SPLITS</h5>
                 <div class="card rounded-lg p-3">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">KM</th>
-                            <th scope="col">Split Time</th>
-                            <th scope="col">Race Time</th>
-                            <th scope="col">Pace</th>
-                            <th scope="col">Overall</th>
-                            <th scope="col">Kategori</th>
-                            <th scope="col">Gender</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody-splits">
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                <th scope="col">KM</th>
+                                <th scope="col">Split Time</th>
+                                <th scope="col">Race Time</th>
+                                <th scope="col">Pace</th>
+                                <th scope="col">Overall</th>
+                                <th scope="col">Kategori</th>
+                                <th scope="col">Gender</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-splits">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
