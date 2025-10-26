@@ -479,13 +479,14 @@ async function showDetailResult(id, kategori, bib_number){
       ordering:'chip_time_asc',
       page:'1',
       page_size:'50',
-      search: ''
+      search: bib_number
     });
     
     getDataFromAPI("https://terserah.my.id/results?"+p.toString())
     .then(async function(data){
-        result = (data.items||[]).find(x=>x.bib_number===bib_number) || data.items?.[0] || null;
-        console.log('api', data, result);
+        // result = (data.items||[]).find(x=>x.bib_number===bib_number) || data.items?.[0] || null;
+        result = data.items.find(item => item.bib_number == bib_number)
+        // console.log('api', data, result, result2, bib_number);
     
         const totalKategori = data.pagination ? data.pagination.total : 0;
         let totalSub, totalGender;
@@ -603,11 +604,11 @@ async function showDetailResult(id, kategori, bib_number){
             }
         }
 
-        if(status_sert_time){
+        // if(status_sert_time){
             $('#btn-download-sertifikat').prop('disabled', false)
-        }else{
-            $('#btn-download-sertifikat').prop('disabled', true)
-        }
+        // }else{
+        //     $('#btn-download-sertifikat').prop('disabled', true)
+        // }
         
         $('#modalDetailResult').modal('show')
         $('#loader').removeClass('active')
