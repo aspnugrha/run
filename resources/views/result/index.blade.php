@@ -484,14 +484,15 @@ async function showDetailResult(id, kategori, bib_number){
     
     getDataFromAPI("https://terserah.my.id/results?"+p.toString())
     .then(async function(data){
-        // result = (data.items||[]).find(x=>x.bib_number===bib_number) || data.items?.[0] || null;
-        result = data.items.find(item => item.bib_number == bib_number)
-        // console.log('api', data, result, result2, bib_number);
+        result = (data.items||[]).find(x=>x.bib_number===bib_number) || data.items?.[0] || null;
+        const result2 = data.items.find(item => item.bib_number == bib_number)
+        console.log('api', data, result, result2, bib_number);
     
-        const totalKategori = data.pagination ? data.pagination.total : 0;
-        let totalSub, totalGender;
+        // const totalKategori = data.pagination ? data.pagination.total : 0;
+        let totalKategori, totalSub, totalGender;
 
         await new Promise(async resolve => {
+            totalKategori = await fetchTotal(null, kategori);
             totalSub = result.sub_kategori ? await fetchTotal({sub_kategori: result.sub_kategori}, kategori) : 0;
             totalGender = result.gender ? await fetchTotal({gender: result.gender}, kategori) : 0;
 
@@ -604,11 +605,11 @@ async function showDetailResult(id, kategori, bib_number){
             }
         }
 
-        // if(status_sert_time){
+        if(status_sert_time){
             $('#btn-download-sertifikat').prop('disabled', false)
-        // }else{
-        //     $('#btn-download-sertifikat').prop('disabled', true)
-        // }
+        }else{
+            $('#btn-download-sertifikat').prop('disabled', true)
+        }
         
         $('#modalDetailResult').modal('show')
         $('#loader').removeClass('active')
