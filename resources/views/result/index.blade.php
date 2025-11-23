@@ -517,6 +517,9 @@ async function showDetailResult(id, kategori, bib_number){
         if(result.start_time){
             start_time = formatWaktuLengkap(result.start_time)
         }
+
+        console.log('ini start', result.start_time, start_time);
+        
         
         let finish_time = ''
         if(result.finish_time){
@@ -744,7 +747,7 @@ function formatWaktuLengkap(isoString) {
   ];
 
   const tanggal = String(date.getDate()).padStart(2, '0');
-  const bulan_raw = String(date.getMonth()).padStart(2, '0');
+  const bulan_raw = String(date.getMonth() + 1).padStart(2, '0');
   const bulan = namaBulan[date.getMonth()];
   const tahun = date.getFullYear();
 
